@@ -1,7 +1,17 @@
 import axios from 'axios';
 
+const getBaseURL = () => {
+  if (import.meta.env.VITE_API_URL) {
+    return import.meta.env.VITE_API_URL;
+  }
+  const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+  return isLocal 
+    ? 'http://localhost:5001/api' 
+    : 'https://healthcare-support-ai-triage-portal.onrender.com/api';
+};
+
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || 'https://healthcare-support-ai-triage-portal.onrender.com/api',
+  baseURL: getBaseURL(),
 });
 
 // Request interceptor to add JWT token if exists
